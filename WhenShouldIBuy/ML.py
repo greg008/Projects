@@ -1,12 +1,13 @@
 # add libs
-#read data
-#visualisation of data
-#prepare data
+# read data
+# visualisation of data
+# prepare data
 
-#podział danych
-#przygotoanie modelu
-#trenowanie modelu
-#predykcja na danych testowych
-#wyniki
+# podział danych
+# przygotoanie modelu
+# trenowanie modelu
+# predykcja na danych testowych
+# results
+
 
 
