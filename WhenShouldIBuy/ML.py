@@ -18,8 +18,8 @@ print(df.head())
 
 # visualisation of data
 import matplotlib as plt
-df.plot(x='date_delta', y='price')
-# plt.pyplot.show()
+df.plot.scatter(x='date_delta', y='price')
+plt.pyplot.show()
 
 # prepare data
 from sklearn.model_selection import train_test_split
@@ -47,5 +47,12 @@ print("Wyraz wolny b:", regr.intercept_)
 print("Bład sredniokwadratowy:", mean_squared_error(y_test, y_pred))
 # idealny to = 1 czyli 100 %
 print("Wspólczynnik determinacji R^2 :", regr.score(X_train, y_train))
+
+# wizualizacja po
+# nakładanie  przewidywanych danych na wykres
+import matplotlib.pyplot as plt1
+plt1.scatter(X_train, y_train)
+plt1.plot(X_test, y_pred, color='red', linewidth=3)
+plt1.show()
 
 
