@@ -1,11 +1,16 @@
 # add libs
+import sys
+sys.path.append("..")
+import WebPriceScraping
 import pandas
 import numpy as np
-# read data
 
+# read data
 cols = ['date', 'price']
-df = pandas.read_csv('data.csv', sep=',', names=cols, header=None)
+# df = pandas.read_csv('data.csv', sep=',', names=cols, header=None)
+df = pandas.read_csv('out1.csv', sep=',', names=cols, header=None)
 print(df.head())
+print('rozmiar', df.shape)
 # convert data to integer(number of days from begining)
 
 df['date'] = pandas.to_datetime(df['date'])
@@ -18,8 +23,8 @@ print(df.head())
 
 # visualisation of data
 import matplotlib as plt
-df.plot.scatter(x='date_delta', y='price')
-plt.pyplot.show()
+df.plot(x='date_delta', y='price')
+# plt.pyplot.show()
 
 # prepare data
 from sklearn.model_selection import train_test_split
@@ -53,6 +58,7 @@ print("Wspólczynnik determinacji R^2 :", regr.score(X_train, y_train))
 import matplotlib.pyplot as plt1
 plt1.scatter(X_train, y_train)
 plt1.plot(X_test, y_pred, color='red', linewidth=3)
-plt1.show()
+# plt1.show()
+# WebPriceScraping.priceScraping()
 
 
