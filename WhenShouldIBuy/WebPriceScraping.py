@@ -9,8 +9,8 @@ import itertools
 import pandas as pd
 
 def priceScraping():
-    # quote_page = 'https://pricespy.co.uk/phones-gps/mobile-phones/huawei-p9-lite--p3637775/statistics'
-    quote_page = 'https://pricespy.co.uk/phones-gps/mobile-phones/samsung-galaxy-s9-sm-g960f-64gb--p4700492/statistics'
+    quote_page = 'https://pricespy.co.uk/phones-gps/mobile-phones/huawei-p9-lite--p3637775/statistics'
+    # quote_page = 'https://pricespy.co.uk/phones-gps/mobile-phones/samsung-galaxy-s9-sm-g960f-64gb--p4700492/statistics'
     page = urlopen(quote_page)
     soup = BeautifulSoup(page, 'html.parser')
     soup2 = str(soup)
@@ -43,3 +43,4 @@ def priceScraping():
     index1 = ['date', 'price']
     pd.DataFrame(dfObj).to_csv('out1.csv', header=False, quoting=csv.QUOTE_NONE)
     print('function finished')
+priceScraping()

@@ -32,10 +32,37 @@ X_data = df[['date_delta']]
 Y_data = df[['price']]
 X_train, X_test, y_train, y_test = train_test_split(X_data, Y_data, random_state=1)
 
-# przygotowanie modelu
+# przygotowanie modelu linear regression
 from sklearn import linear_model
 regr = linear_model.LinearRegression()
 print(regr)
+
+# przygotowanie modelu polynomial regression
+from sklearn.preprocessing import PolynomialFeatures
+from sklearn.linear_model import LinearRegression
+poly_regr = PolynomialFeatures(degree=4)
+X_poly = poly_regr.fit_transform(X_data)
+poly_regr.fit(X_poly, Y_data)
+lin_reg_2 = LinearRegression()
+lin_reg_2.fit(X_poly, Y_data)
+
+# wizualizacja regresji wielomianowej
+import matplotlib.pyplot as plt
+import numpy as np
+from sklearn.metrics import mean_squared_error, r2_score
+plt.scatter(X_data, Y_data, color='red')
+plt.plot(X_data, lin_reg_2.predict(poly_regr.fit_transform(X_data)), color='blue')
+plt.title('Truth or Bluff (Polynomial Regression)')
+plt.xlabel('Position level')
+plt.ylabel('Salary')
+plt.show()
+poly_pred = lin_reg_2.predict(poly_regr.fit_transform(X_data))
+# print('poly_pred', poly_pred)
+rmse = np.sqrt(mean_squared_error(Y_data, poly_pred))
+print('RMSE', rmse)
+r2 = r2_score(Y_data, poly_pred)
+print('R^2', r2)
+
 
 # trenowanie modelu
 regr.fit(X_train, y_train)
