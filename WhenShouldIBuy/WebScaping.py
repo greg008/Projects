@@ -44,12 +44,18 @@ print(type(d))
 # y = json.loads(d)
 
 # write to csv
-csv_file = "Names.csv"
-csv_columns = ['Data', 'Price']
-with open(csv_file, 'w') as csvfile:
-    writer = csv.DictWriter(csvfile, fieldnames=csv_columns)
-    writer.writeheader()
-    for data in d:
-        writer.writerow(data)
+# csv_file = "Names.csv"
+# csv_columns = ['Data', 'Price']
+# with open(csv_file, 'w') as csvfile1:
+#     writer = csv.DictWriter(csvfile1, fieldnames=csv_columns)
+#     writer.writeheader()
+#     for data in d:
+#         writer.writerow(data)
 
+# by pandas dict to dataframe
+dfObj = pd.DataFrame.from_dict(d, orient='index', columns=None)
+print('dfObj', dfObj)
 
+# data frame to csv
+index1 = ['date', 'price']
+pd.DataFrame(dfObj).to_csv('out1.csv', header=False, quoting=csv.QUOTE_NONE)
