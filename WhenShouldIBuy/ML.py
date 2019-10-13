@@ -68,6 +68,7 @@ print('R^2', r2)
 regr.fit(X_train, y_train)
 
 # prediction
+# print('xxxxxxxxxxxxxxxxx',X_test)
 y_pred = regr.predict(X_test)
 
 # results
@@ -98,6 +99,31 @@ print('oryginal price after 100 days:', df.loc[200, 'price'])
 # print(df.loc[100, ['date_delta']])
 # poly_regr.fit(X_poly, Y_data)
 X_data_1 = df.loc[200, 'date_delta']
+X_data_all = df.loc[:, 'date_delta']
+print(X_data_all)
+# y_pred = regr.predict(X_test)
+
 # print('X_data_1', X_data_1)
 y_pred_100 = regr.predict(X_data_1.reshape(-1, 1))
+y_pred_all = regr.predict(X_data_all.values.reshape(-1, 1))
 print('model predict price after 100 days:', y_pred_100)
+print('model predict all price: ', y_pred_all)
+
+print(type(y_pred_all))
+print(y_pred_all.size)
+
+# % percent
+X_data_begining = df.loc[0, 'price']
+percent_treshold = int(X_data_begining * 0.8)
+print('percent_treshold:', percent_treshold)
+
+print('X_data_begining:', X_data_begining)
+for i in range(y_pred_all.size):
+    if y_pred_all[i] <= percent_treshold:
+        print(i, '80% to: ', y_pred_all[i])
+        break
+
+# print(df.loc[77, 'price'])
+# print(y_pred_all[77])
+
+
