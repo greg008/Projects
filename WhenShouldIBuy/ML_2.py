@@ -64,3 +64,8 @@ print('b=', regr.intercept_)
 print('mean_squared_error', mean_squared_error(y_test, y_pred))
 #  R^2
 print('R^2', regr.score(X_train, y_train))
+
+# predict new data
+new_data_df = pandas.DataFrame([[228, 1]])
+y_pred_new = regr.predict(new_data_df)
+print('y_pred_new:', y_pred_new)
