@@ -1,11 +1,6 @@
 # add libs
-import sys
-# sys.path.append("..")
-# import WebPriceScraping
 import csv
 import pandas
-import numpy as np
-
 
 # read data for H p9 Lite
 cols = ['date', 'price', 'premium', 'name']
@@ -39,4 +34,33 @@ print(df3.tail())
 pandas.DataFrame(df3).to_csv('out_concat.csv', header=False, quoting=csv.QUOTE_NONE)
 print('function finished')
 
+# split data
+from sklearn.model_selection import train_test_split
+# print(type(df3))
+X_data = df3.iloc[:, [0, 3]]
+# print(X_data.head())
+y_data = df3.iloc[:, 2]
+# print(y_data.head())
 
+X_train, X_test, y_train, y_test = train_test_split(X_data, y_data, random_state=1)
+
+# przygotowanie modelu
+from sklearn import linear_model
+regr = linear_model.LinearRegression()
+
+#trenowanie modelu
+regr.fit(X_train, y_train)
+print(regr)
+# predykcja na danych testowych
+y_pred = regr.predict(X_test)
+print(y_pred)
+
+print('===Results===')
+from sklearn.metrics import mean_squared_error
+# results
+print('a=', regr.coef_)
+print('b=', regr.intercept_)
+# mean_squared_error
+print('mean_squared_error', mean_squared_error(y_test, y_pred))
+#  R^2
+print('R^2', regr.score(X_train, y_train))
