@@ -3,27 +3,6 @@
 import csv
 import pandas
 #
-# # read data for Huawei P9 Lite
-# cols = ['date', 'price', 'premium', 'name']
-# df2 = pandas.read_csv('out2.csv', sep=',', names=cols, header=None)
-# print('head:', df2.head())
-# print('len:', len(df2))
-# print('rozmiar', df2.shape)
-# print('\n')
-# # convert data to integer(number of days from begining)
-# df1.insert(0, 'Day', range(0, len(df2)))
-# print('head:', df2.tail())
-#
-# # read data for Samsung Galaxy S9
-# cols = ['date', 'price', 'premium', 'name']
-# df3 = pandas.read_csv('out3.csv', sep=',', names=cols, header=None)
-# print('head:', df3.head())
-# print('len:', len(df3))
-# print('rozmiar', df3.shape)
-# print('\n')
-# # convert data to integer(number of days from begining)
-# df2.insert(0, 'Day', range(0, len(df3)))
-# print('head:', df3.tail())
 
 def fromCsvToDf(*names):
     df0 = pandas.DataFrame()
@@ -42,11 +21,6 @@ df_concat = fromCsvToDf('out2.csv', 'out3.csv', 'out4.csv', 'out5.csv', 'out6.cs
 # # save concat df to csv
 pandas.DataFrame(df_concat).to_csv('out_concat.csv', header=False, quoting=csv.QUOTE_NONE)
 print('function finished')
-
-# # concenate two dataframes
-# df_concat = pandas.concat([df2, df3], ignore_index=True)
-# print(df_concat.head())
-# print(df_concat.tail())
 
 # split data
 from sklearn.model_selection import train_test_split
@@ -80,9 +54,50 @@ print('mean_squared_error', mean_squared_error(y_test, y_pred))
 print('R^2', regr.score(X_train, y_train))
 
 # predict new data
-new_data_df = pandas.DataFrame([[389, 3]])
+new_data_df = pandas.DataFrame([[214, 2]])
 y_pred_new = regr.predict(new_data_df)
 print('y_pred_new:', y_pred_new)
+
+# predict fall price to 70%
+# begining_price = 0
+# def my_switch(begining_price):
+
+def choose(begining_price):
+    if (begining_price <= 300) and (begining_price) >= 200:
+        return 2
+    elif (begining_price <= 400) and (begining_price) > 300:
+        return 3
+    elif (begining_price <= 500) and (begining_price) > 400:
+        return 4
+    elif (begining_price <= 600) and (begining_price) > 500:
+        return 5
+    elif (begining_price <= 700) and (begining_price) > 600:
+        return 6
+    elif (begining_price <= 800) and (begining_price) > 700:
+        return 7
+    elif (begining_price <= 900) and (begining_price) > 800:
+        return 8
+    else:
+        print('none of them')
+
+
+print('range for begining price 450 is:', choose(450))
+
+    # 200 <= begining_price <= 300: 2,
+    # 300 < begining_price <= 400: 3,
+    # 400 < begining_price <= 500: 4,
+    # 500 < begining_price <= 600: 5,
+    # 600 < begining_price <= 700: 6,
+    # 700 < begining_price <= 800: 7,
+    # 800 < begining_price <= 900: 8,
+
+    # return switcher.get(begining_price)
+
+# print('my_switch(250)=', switcher.get(450))
+
+# y_custom_pred = regr.predict(X_test)
+# print(y_pred)
+
 #
 # # ===Results=== with only 2 out files
 # # a= [-1.41403473e-01  2.58113306e+02]
