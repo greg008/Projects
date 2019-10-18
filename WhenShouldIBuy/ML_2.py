@@ -2,6 +2,7 @@
 # https://datatofish.com/multiple-linear-regression-python/
 import csv
 import pandas
+import numpy as np
 #
 
 def fromCsvToDf(*names):
@@ -10,6 +11,7 @@ def fromCsvToDf(*names):
         print(name)
         cols = ['date', 'price', 'premium', 'name']
         df = pandas.read_csv(name, sep=',', names=cols, header=None)
+        df = df.drop(df.index[400:])
         # convert data to integer(number of days from begining)
         df.insert(0, 'Day', range(0, len(df)))
         df_concat = pandas.concat([df0, df], ignore_index=True)
@@ -26,7 +28,7 @@ print('function finished')
 from sklearn.model_selection import train_test_split
 # print(type(df3))
 X_data = df_concat.iloc[:, [0, 3]]
-# print(X_data.head())
+print(X_data.head())
 y_data = df_concat.iloc[:, 2]
 # print(y_data.head())
 
@@ -59,8 +61,6 @@ y_pred_new = regr.predict(new_data_df)
 print('y_pred_new:', y_pred_new)
 
 # predict fall price to 70%
-# begining_price = 0
-# def my_switch(begining_price):
 
 def choose(begining_price):
     if (begining_price <= 300) and (begining_price) >= 200:
@@ -83,6 +83,31 @@ def choose(begining_price):
 
 print('range for begining price 450 is:', choose(450))
 
+
+
+# create prediction for specific range
+
+X_specific = pandas.DataFrame()
+X_specific.insert(0, 'Day', range(0, 364))
+X_specific.insert(1, 'premium', 4)
+print('X_specific:', X_specific)
+
+
+# prediction for specific range
+y_pred_specific = regr.predict(X_specific)
+print(y_pred_specific)
+print(type(y_pred_specific))
+print(y_pred_specific.size)
+
+
+# logic for 80%
+percent = 0.8 * 450
+
+for i in range(0, y_pred_specific.size):
+    if y_pred_specific[i] <= percent:
+        print('80% of begining price will be in:', i, 'day', 'and value is:', y_pred_specific[i])
+        break
+print(percent)
     # 200 <= begining_price <= 300: 2,
     # 300 < begining_price <= 400: 3,
     # 400 < begining_price <= 500: 4,
