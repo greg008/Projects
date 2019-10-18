@@ -9,8 +9,21 @@ import itertools
 import pandas as pd
 
 def priceScraping():
-    quote_page = 'https://pricespy.co.uk/phones-gps/mobile-phones/huawei-p9-lite--p3637775/statistics'
+    # 200-300
+    # quote_page = 'https://pricespy.co.uk/phones-gps/mobile-phones/huawei-p9-lite--p3637775/statistics'
+    # 300-400
+    # quote_page = 'https://pricespy.co.uk/phones-gps/mobile-phones/samsung-galaxy-a5-2017-sm-a520f--p4068702/statistics'
+    # 400-500
+    # quote_page = 'https://pricespy.co.uk/phones-gps/mobile-phones/honor-10-4gb-ram-128gb--p4802117/statistics'
+    # 500-600
+    # quote_page = 'https://pricespy.co.uk/phones-gps/mobile-phones/huawei-p20-128gb--p4734963/statistics'
+    # 600-700
+    quote_page = 'https://pricespy.co.uk/phones-gps/mobile-phones/samsung-galaxy-s8-sm-g950f-64gb--p4199926/statistics'
+    # 700-800
     # quote_page = 'https://pricespy.co.uk/phones-gps/mobile-phones/samsung-galaxy-s9-sm-g960f-64gb--p4700492/statistics'
+    # 800-900
+    # quote_page = 'https://pricespy.co.uk/phones-gps/mobile-phones/samsung-galaxy-note-9-sm-n960f-128gb--p4903177/statistics'
+
     page = urlopen(quote_page)
     soup = BeautifulSoup(page, 'html.parser')
     soup2 = str(soup)
@@ -51,10 +64,11 @@ def priceScraping():
     # print('dfObj', dfObj)
     # print('dfObj type', type(dfObj))
     # add class type [premium, mid-range]
-    if float(dfObj.iloc[0, 0]) > 600:
-        dfObj['premium'] = 1
-    else:
-        dfObj['premium'] = 0
+    # if float(dfObj.iloc[0, 0]) > 600:
+    #     dfObj['premium'] = 1
+    # else:
+    #     dfObj['premium'] = 0
+    dfObj['premium'] = 6
     # add name of mobile phone
     dfObj['Phone name'] = data_name[0]
 
@@ -64,6 +78,7 @@ def priceScraping():
     print('dfObj_after', dfObj)
     # data frame to csv
     index1 = ['date', 'price']
-    pd.DataFrame(dfObj).to_csv('out1.csv', header=False, quoting=csv.QUOTE_NONE)
+    pd.DataFrame(dfObj).to_csv('out6.csv', header=False, quoting=csv.QUOTE_NONE)
     print('function finished')
 priceScraping()
+
