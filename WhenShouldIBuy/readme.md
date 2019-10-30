@@ -12,4 +12,5 @@
 - error handling
 - pep8
 
+![alt text](charts.png "Title Text")
 
