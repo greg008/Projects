@@ -46,29 +46,23 @@ import matplotlib.pyplot as plt
 # plt.ylabel('Salary')
 # plt.show()
 
-# X = dataset.iloc[:, [1, 4]].values
-mainDf = pd.DataFrame()
-for i in dataset.index:
-    if dataset.iloc[i, 4] == 2:
-        print(dataset.iloc[i, 4])
-        print(dataset.iloc[i, :])
 
-        mainDf.append(dataset.iloc[i, :])
-
-# mainDf = dataset.iloc[:, 4] == 2
+mainDf = dataset[dataset.iloc[:, 4] == 2]
 print('maindf = ', mainDf)
+print(mainDf.shape)
+y_raw = mainDf.iloc[0:364, 3]
+# print('y_raw', y_raw)
 
-print(dataset.iloc[i, :])
 def draw_plot_polynomial(premium_no):
     X_specific = pd.DataFrame()
     X_specific.insert(0, 'Day', range(0, 364))
     X_specific.insert(1, 'premium', premium_no)
     # y_raw =
     y = lin_reg_2.predict(poly_reg.fit_transform(X_specific))
-    print('predict for ', premium_no, '=', y)
-    # plt.plot(range(0.364), y_raw)
+    # print('predict for ', premium_no, '=', y)
+    plt.plot(range(0, 364), y_raw)
     plt.plot(range(0, 364), y, color='blue')
-    # plt.show()
+    plt.show()
 
 draw_plot_polynomial(2)
 
