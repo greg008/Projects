@@ -3,6 +3,7 @@
 import sys
 sys.path.append("..")
 import pandas as pd
+import matplotlib.pyplot as plt
 
 # Importing the dataset
 dataset = pd.read_csv('out_concat.csv')
@@ -38,7 +39,7 @@ lin_reg_2 = LinearRegression()
 lin_reg_2.fit(X_poly, Y)
 
 # wizualizacja regresji wielomianowej
-import matplotlib.pyplot as plt
+
 # plt.plot(X, Y, color='red')
 # plt.plot(X, lin_reg_2.predict(poly_reg.fit_transform(X)), color='blue')
 # plt.title('Truth or Bluff (Polynomial Regression)')
@@ -47,24 +48,44 @@ import matplotlib.pyplot as plt
 # plt.show()
 
 
-mainDf = dataset[dataset.iloc[:, 4] == 2]
-print('maindf = ', mainDf)
-print(mainDf.shape)
-y_raw = mainDf.iloc[0:364, 3]
+
 # print('y_raw', y_raw)
 
 def draw_plot_polynomial(premium_no):
     X_specific = pd.DataFrame()
     X_specific.insert(0, 'Day', range(0, 364))
     X_specific.insert(1, 'premium', premium_no)
-    # y_raw =
+    mainDf = dataset[dataset.iloc[:, 4] == premium_no]
+    y_raw = mainDf.iloc[0:364, 3]
     y = lin_reg_2.predict(poly_reg.fit_transform(X_specific))
-    # print('predict for ', premium_no, '=', y)
     plt.plot(range(0, 364), y_raw)
     plt.plot(range(0, 364), y, color='blue')
-    plt.show()
 
+
+fig = plt.figure(figsize=(8, 8))
+plt.subplot(4, 2, 1)
 draw_plot_polynomial(2)
+
+plt.subplot(4, 2, 2)
+draw_plot_polynomial(3)
+
+plt.subplot(4, 2, 3)
+draw_plot_polynomial(4)
+
+plt.subplot(4, 2, 4)
+draw_plot_polynomial(5)
+
+plt.subplot(4, 2, 5)
+draw_plot_polynomial(6)
+
+plt.subplot(4, 2, 6)
+draw_plot_polynomial(7)
+
+plt.subplot(4, 2, 7)
+draw_plot_polynomial(8)
+plt.savefig("charts.png")
+plt.show()
+
 
 # Predicting a new result with Polynomial Regression
 # print(lin_reg_2.predict(poly_reg.fit_transform([[100, 7]])))
