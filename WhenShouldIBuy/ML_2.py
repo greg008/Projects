@@ -2,6 +2,8 @@
 # https://datatofish.com/multiple-linear-regression-python/
 import csv
 import pandas
+
+
 import numpy as np
 #
 
@@ -18,47 +20,73 @@ def fromCsvToDf(*names):
         df0 = df_concat
     return df0
 
+
+def prep_and_learn_model(dataframe):
+    from sklearn import linear_model
+    from sklearn.model_selection import train_test_split
+    from sklearn.metrics import mean_squared_error
+    X_data = df_concat.iloc[:, [0, 3]]
+    print(X_data.head())
+    y_data = df_concat.iloc[:, 2]
+    X_train, X_test, y_train, y_test = train_test_split(X_data, y_data, random_state=1)
+    # prepare model
+    regr = linear_model.LinearRegression()
+
+    #trenowanie modelu
+    regr.fit(X_train, y_train)
+    print(regr)
+    # predykcja na danych testowych
+    y_pred = regr.predict(X_test)
+    print(y_pred)
+    print('===Results===')
+
+    # results
+    print('a=', regr.coef_)
+    print('b=', regr.intercept_)
+    # mean_squared_error
+    print('mean_squared_error', mean_squared_error(y_test, y_pred))
+    #  R^2
+    print('R^2', regr.score(X_train, y_train))
+    return regr
+
+
 df_concat = fromCsvToDf('out2.csv', 'out3.csv', 'out4.csv', 'out5.csv', 'out6.csv', 'out7.csv', 'out8.csv')
 
 # # save concat df to csv
 pandas.DataFrame(df_concat).to_csv('out_concat.csv', header=False, quoting=csv.QUOTE_NONE)
 print('function finished')
 
-# split data
-from sklearn.model_selection import train_test_split
-# print(type(df3))
-X_data = df_concat.iloc[:, [0, 3]]
-print(X_data.head())
-y_data = df_concat.iloc[:, 2]
-# print(y_data.head())
+regr = prep_and_learn_model(df_concat)
 
-X_train, X_test, y_train, y_test = train_test_split(X_data, y_data, random_state=1)
 
-# przygotowanie modelu
-from sklearn import linear_model
-regr = linear_model.LinearRegression()
+#
+# # split data
+# from sklearn.model_selection import train_test_split
+# # print(type(df3))
+# X_data = df_concat.iloc[:, [0, 3]]
+# print(X_data.head())
+# y_data = df_concat.iloc[:, 2]
+# # print(y_data.head())
+#
+# X_train, X_test, y_train, y_test = train_test_split(X_data, y_data, random_state=1)
+#
+# # przygotowanie modelu
+# from sklearn import linear_model
+# regr = linear_model.LinearRegression()
+#
+# #trenowanie modelu
+# regr.fit(X_train, y_train)
+# print(regr)
+# # predykcja na danych testowych
+# y_pred = regr.predict(X_test)
+# print(y_pred)
 
-#trenowanie modelu
-regr.fit(X_train, y_train)
-print(regr)
-# predykcja na danych testowych
-y_pred = regr.predict(X_test)
-print(y_pred)
 
-print('===Results===')
-from sklearn.metrics import mean_squared_error
-# results
-print('a=', regr.coef_)
-print('b=', regr.intercept_)
-# mean_squared_error
-print('mean_squared_error', mean_squared_error(y_test, y_pred))
-#  R^2
-print('R^2', regr.score(X_train, y_train))
 
 # predict new data
-new_data_df = pandas.DataFrame([[214, 2]])
-y_pred_new = regr.predict(new_data_df)
-print('y_pred_new:', y_pred_new)
+# new_data_df = pandas.DataFrame([[214, 2]])
+# y_pred_new = regr.predict(new_data_df)
+# print('y_pred_new:', y_pred_new)
 
 # predict fall price to 70%
 
@@ -89,7 +117,8 @@ print('range for begining price 450 is:', choose(450))
 
 X_specific = pandas.DataFrame()
 X_specific.insert(0, 'Day', range(0, 364))
-X_specific.insert(1, 'premium', 4)
+X_specific.insert(1, 'premium', 3)
+# https://pricespy.co.uk/phones-gps/mobile-phones/samsung-galaxy-a5-2017-sm-a520f--p4068702/statistics
 print('X_specific:', X_specific)
 
 
@@ -101,7 +130,8 @@ print(y_pred_specific.size)
 
 
 # logic for 80%
-percent = 0.8 * 450
+# begin_value =
+percent = 0.8 * 386
 
 for i in range(0, y_pred_specific.size):
     if y_pred_specific[i] <= percent:
