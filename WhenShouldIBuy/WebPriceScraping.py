@@ -1,12 +1,49 @@
-# https://pricespy.co.uk/phones-gps/mobile-phones/samsung-galaxy-j1-mini-prime-sm-j106h--p4020352/statistics
-# view-source:https://pricespy.co.uk/phones-gps/mobile-phones/huawei-p9-lite--p3637775/statistics
+
+# This module implements web scraping
 from urllib.request import urlopen
 import re
-import csv
 from bs4 import BeautifulSoup
 import itertools
 
 import pandas as pd
+
+# read links and remove newline characters
+with open('data/links.txt') as f:
+    links = [link.strip('\n') for link in f]
+print(links)
+
+for link in links:
+    page = urlopen(link)
+    soup = BeautifulSoup(page, 'html.parser')
+    soup2 = str(soup)
+
+    pattern = re.compile('\"statistics\"\:\{\"pageInfo\"\:\{\"lowestPrice\"\:.*nodes\"\:\[(.*)\]\}\,\"priceForecast',
+                         re.MULTILINE)
+    data = re.findall(pattern, soup2)
+    # pattern_name = re.compile('\"Product\",\"name\":\"(.*)\",\"description\":\"Price history', re.MULTILINE)
+    # data_name = re.findall(pattern_name, soup2)
+    rm_characters = data[0]
+    chars = ['{', '}', '"date":', '"lowestPrice":', '"']
+    for c in chars:
+        rm_characters = rm_characters.replace(c, "")
+    split_data = rm_characters.split(',')
+    # convert list to dictionary
+    d = dict(itertools.zip_longest(*[iter(split_data)] * 2, fillvalue=""))
+    print(d)
+    # create dataframe from dict
+    dfObj = pd.DataFrame.from_dict(d, orient='index', columns=None)
+
+    dfObj['premium'] = 6
+    # add name of mobile phone
+    dfObj['Phone name'] = data_name[0]
+    # print('iloc 0 0 ', dfObj.iloc[0, 0])
+    # print('iloc 0 0  type', type(dfObj.iloc[0, 0]))
+    # dfObj['premium'] = 1
+    print('dfObj_after', dfObj)
+    # data frame to csv
+    index1 = ['date', 'price']
+
+
 
 def priceScraping():
     # 200-300
@@ -80,5 +117,5 @@ def priceScraping():
     index1 = ['date', 'price']
     pd.DataFrame(dfObj).to_csv('out6.csv', header=False, quoting=csv.QUOTE_NONE)
     print('function finished')
-priceScraping()
+# priceScraping()
 
