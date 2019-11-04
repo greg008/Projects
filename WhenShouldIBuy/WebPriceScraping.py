@@ -51,7 +51,7 @@ def choose(begining_price):
 # def parse_links(links):
 
 
-def priceScraping(links):
+def price_scraping(links):
     for link in links:
         page = urlopen(link)
         soup = BeautifulSoup(page, 'html.parser')
@@ -79,6 +79,7 @@ def priceScraping(links):
 
         # add column with name of mobile phone
         dfObj['Phone name'] = data_name[0]
+        print(dfObj)
 
         # create file name
         dir_name = 'data'

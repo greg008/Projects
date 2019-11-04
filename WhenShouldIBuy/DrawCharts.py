@@ -1,53 +1,63 @@
 import matplotlib.pyplot as plt
-import pandas
-from sklearn.model_selection import train_test_split
-import sys
-sys.path.append("..")
-from ML_2 import fromCsvToDf
-from ML_2 import prep_and_learn_model
-
-df_concat = fromCsvToDf('out2.csv')
-X_data = df_concat.iloc[:, 0]
-y_data = df_concat.iloc[:, 2]
-print(df_concat.shape)
-print('xxxxxxxxxxxxxx', df_concat.tail())
-
-plt.plot(X_data, y_data, color='red')
-# plt.plot(X, lin_regr.predict(X), color='blue')
-plt.title('mobile price from raw data')
-plt.xlabel('Day')
-plt.ylabel('Price')
-plt.show()
+import pandas as pd
 
 
-df_concat2 = fromCsvToDf('out2.csv', 'out3.csv', 'out4.csv', 'out5.csv', 'out6.csv', 'out7.csv', 'out8.csv')
-reg = prep_and_learn_model(df_concat)
+def draw_plot_polynomial(premium_no, dataset, lin_reg_2, poly_reg):
+    dataset = pd.read_csv('data/out_concat.csv')
+    X_specific = pd.DataFrame()
+    X_specific.insert(0, 'Day', range(0, 364))
+    X_specific.insert(1, 'premium', premium_no)
+    mainDf = dataset[dataset.iloc[:, 4] == premium_no]
+    y_raw = mainDf.iloc[0:364, 3]
+    y = lin_reg_2.predict(poly_reg.fit_transform(X_specific))
+    plt.plot(range(0, 364), y_raw)
+    plt.plot(range(0, 364), y, color='blue')
 
-# create prediction for specific range
-X_specific = pandas.DataFrame()
-X_specific.insert(0, 'Day', range(0, 364))
-X_specific.insert(1, 'premium', 2)
-# print('X_specific:', X_specific.head())
-# prediction for specific range
-y_pred_specific = reg.predict(X_specific)
-# print(y_pred_specific)
-# print(type(y_pred_specific))
-# print(y_pred_specific.size)
+def plot_charts(dataset, lin_reg_2, poly_reg):
+    fig = plt.figure(figsize=(12, 12))
+    fig.subplots_adjust(hspace=0.7)
+    fig.suptitle('Polynomial cellphone price', fontsize=16)
 
-X_specific.insert(2, 'Predict_price', y_pred_specific)
-print(X_specific.shape)
-print(X_specific.tail())
-# X_specific.insert(2, 'Predict_price', range(0, 364))
+    plt.subplot(4, 2, 1)
+    plt.title('Huawei P9 Lite')
+    plt.xlabel('Day')
+    plt.ylabel('Price')
+    draw_plot_polynomial(2, dataset, lin_reg_2, poly_reg)
 
+    plt.subplot(4, 2, 2)
+    plt.title('Samsung Galaxy A5 SM-A520F')
+    plt.xlabel('Day')
+    plt.ylabel('Price')
+    draw_plot_polynomial(3, dataset, lin_reg_2, poly_reg)
 
-X = X_specific.iloc[:, 0]
-y = X_specific.iloc[:, 2]
-plt.plot(X_data, y_data, color='red')
-plt.plot(X, y, color='blue')
-# plt.plot(X, lin_regr.predict(X), color='blue')
-plt.title('mobile price from raw data')
-plt.xlabel('Day')
-plt.ylabel('Price')
-plt.show()
+    plt.subplot(4, 2, 3)
+    plt.title('Huawei Honor 10 (4GB RAM)')
+    plt.xlabel('Day')
+    plt.ylabel('Price')
+    draw_plot_polynomial(4, dataset, lin_reg_2, poly_reg)
 
+    plt.subplot(4, 2, 4)
+    plt.title('Huawei P20 128GB')
+    plt.xlabel('Day')
+    plt.ylabel('Price')
+    draw_plot_polynomial(5, dataset, lin_reg_2, poly_reg)
 
+    plt.subplot(4, 2, 5)
+    plt.title('Samsung Galaxy S8 64GB')
+    plt.xlabel('Day')
+    plt.ylabel('Price')
+    draw_plot_polynomial(6, dataset, lin_reg_2, poly_reg)
+
+    plt.subplot(4, 2, 6)
+    plt.title('Samsung Galaxy S9 64GB')
+    plt.xlabel('Day')
+    plt.ylabel('Price')
+    draw_plot_polynomial(7, dataset, lin_reg_2, poly_reg)
+
+    plt.subplot(4, 2, 7)
+    plt.title('Samsung Galaxy Note 9 128GB')
+    plt.xlabel('Day')
+    plt.ylabel('Price')
+    draw_plot_polynomial(8, dataset, lin_reg_2, poly_reg)
+    plt.savefig("charts.png")
+    plt.show()
