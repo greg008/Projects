@@ -1,12 +1,19 @@
 import sys
 sys.path.append("..")
+import WebPriceScraping
 import pandas as pd
 import matplotlib.pyplot as plt
 
 # import Polynomial
 
 def main():
-    pass
+    # Scrap data from website
+    links = WebPriceScraping.read_links()
+    WebPriceScraping.priceScraping(links)
+    WebPriceScraping.concat_data()
+
+
+
     # Reading and preparing the data
 
     # Regression Learn model
