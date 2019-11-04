@@ -1,4 +1,5 @@
 import matplotlib.pyplot as plt
+import matplotlib.patches as mpatches
 import pandas as pd
 
 
@@ -10,13 +11,16 @@ def draw_plot_polynomial(premium_no, dataset, lin_reg_2, poly_reg):
     mainDf = dataset[dataset.iloc[:, 4] == premium_no]
     y_raw = mainDf.iloc[0:364, 3]
     y = lin_reg_2.predict(poly_reg.fit_transform(X_specific))
-    plt.plot(range(0, 364), y_raw)
-    plt.plot(range(0, 364), y, color='blue')
+    plt.plot(range(0, 364), y_raw, color='blue')
+    plt.plot(range(0, 364), y, color='red')
 
 def plot_charts(dataset, lin_reg_2, poly_reg):
-    fig = plt.figure(figsize=(12, 12))
+    fig = plt.figure(figsize=(10, 10))
     fig.subplots_adjust(hspace=0.7)
     fig.suptitle('Polynomial cellphone price', fontsize=16)
+    red_patch = mpatches.Patch(color='red', label='prediction')
+    blue_patch = mpatches.Patch(color='blue', label='orginal_data')
+    fig.legend(handles=[red_patch, blue_patch], loc='upper right')
 
     plt.subplot(4, 2, 1)
     plt.title('Huawei P9 Lite')

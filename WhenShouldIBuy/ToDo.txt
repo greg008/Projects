@@ -1,4 +1,0 @@
-huawei p9lite
-
-read data from file
-ile danych w przod 2 lata ?
