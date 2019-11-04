@@ -2,6 +2,8 @@
 # This module implements web scraping
 from urllib.request import urlopen
 import re
+import os
+import csv
 from bs4 import BeautifulSoup
 import itertools
 
@@ -12,6 +14,25 @@ with open('data/links.txt') as f:
     links = [link.strip('\n') for link in f]
 print(links)
 
+def choose(begining_price):
+    if (begining_price <= 300) and (begining_price) >= 200:
+        return 2
+    elif (begining_price <= 400) and (begining_price) > 300:
+        return 3
+    elif (begining_price <= 500) and (begining_price) > 400:
+        return 4
+    elif (begining_price <= 600) and (begining_price) > 500:
+        return 5
+    elif (begining_price <= 700) and (begining_price) > 600:
+        return 6
+    elif (begining_price <= 800) and (begining_price) > 700:
+        return 7
+    elif (begining_price <= 900) and (begining_price) > 800:
+        return 8
+    else:
+        print('none of them')
+
+
 for link in links:
     page = urlopen(link)
     soup = BeautifulSoup(page, 'html.parser')
@@ -20,8 +41,8 @@ for link in links:
     pattern = re.compile('\"statistics\"\:\{\"pageInfo\"\:\{\"lowestPrice\"\:.*nodes\"\:\[(.*)\]\}\,\"priceForecast',
                          re.MULTILINE)
     data = re.findall(pattern, soup2)
-    # pattern_name = re.compile('\"Product\",\"name\":\"(.*)\",\"description\":\"Price history', re.MULTILINE)
-    # data_name = re.findall(pattern_name, soup2)
+    pattern_name = re.compile('\"Product\",\"name\":\"(.*)\",\"description\":\"Price history', re.MULTILINE)
+    data_name = re.findall(pattern_name, soup2)
     rm_characters = data[0]
     chars = ['{', '}', '"date":', '"lowestPrice":', '"']
     for c in chars:
@@ -32,16 +53,23 @@ for link in links:
     print(d)
     # create dataframe from dict
     dfObj = pd.DataFrame.from_dict(d, orient='index', columns=None)
-
-    dfObj['premium'] = 6
+    dfObj['premium'] = choose(float(dfObj.iloc[3, 0]))
+    print(dfObj)
     # add name of mobile phone
     dfObj['Phone name'] = data_name[0]
-    # print('iloc 0 0 ', dfObj.iloc[0, 0])
-    # print('iloc 0 0  type', type(dfObj.iloc[0, 0]))
-    # dfObj['premium'] = 1
+
     print('dfObj_after', dfObj)
     # data frame to csv
-    index1 = ['date', 'price']
+    dir_name = 'data'
+    filename_suffix = 'csv'
+    base_filename = 'out'
+    no_file = str(int(choose(float(dfObj.iloc[3, 0]))))
+    type(no_file)
+    d = os.path.join(dir_name, no_file+base_filename + "." + filename_suffix)
+
+    pd.DataFrame(dfObj).to_csv(d, header=False, quoting=csv.QUOTE_NONE)
+
+    print('function finished')
 
 
 
