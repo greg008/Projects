@@ -63,6 +63,8 @@ def price_scraping(links):
         data = re.findall(pattern, soup2)
         pattern_name = re.compile('\"Product\",\"name\":\"(.*)\",\"description\":\"Price history', re.MULTILINE)
         data_name = re.findall(pattern_name, soup2)
+
+        # remove chars
         rm_characters = data[0]
         chars = ['{', '}', '"date":', '"lowestPrice":', '"']
 
@@ -98,4 +100,3 @@ def concat_data():
 
     # save concat df to csv
     pd.DataFrame(df_concat).to_csv('data/out_concat.csv', header=False, quoting=csv.QUOTE_NONE)
-
