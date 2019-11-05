@@ -77,7 +77,6 @@ def main():
     x_specific.insert(0, 'Day', range(0, 364))
     x_specific.insert(1, 'premium', premium_no)
     y_pred_all = lin_reg_2.predict(poly_reg.fit_transform(x_specific))
-    print('y_pred_all', y_pred_all)
 
     for i in range(y_pred_all.size):
         if y_pred_all[i] <= percent_treshold:
