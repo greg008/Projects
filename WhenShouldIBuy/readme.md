@@ -20,12 +20,9 @@ percent_treshold 80%: <br />
 Begining price( 528 )  should drop to 80% ( 421.96564126781067 )  in  **153** day
 
  
-
-
-
-
 **TO DO:**  
 - convert prices to PLN
+- improve model
 - clean code  
 - make tests  
 - error handling
