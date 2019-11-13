@@ -64,7 +64,7 @@ def main():
 
     # % percent
 
-    # real prediction
+    # real prediction 1
     # 'https://pricespy.co.uk/phones-gps/mobile-phones/samsung-galaxy-note-4-duos-sm-n9100-16gb--p2905869/statistics'
 
     data_begining = 528
@@ -78,12 +78,35 @@ def main():
     x_specific.insert(1, 'premium', premium_no)
     y_pred_all = lin_reg_2.predict(poly_reg.fit_transform(x_specific))
 
+    print('prediction for samsung-galaxy-note-4-duos-sm-n9100')
     for i in range(y_pred_all.size):
         if y_pred_all[i] <= percent_treshold:
             print('Begining price(', data_begining, ')', ' should drop to 80% (', y_pred_all[i], ')', ' in ', i, 'day')
             break
     # 153 day is 80 % to: 421.96564126781067
     # after 153 day from graph is 483 so is 10% fail and
+
+    # real prediction 2
+    # 'https://pricespy.co.uk/phones-gps/mobile-phones/sony-xperia-xz1-compact-g8441--p4433342/statistics'
+
+    data_begining = 479
+    premium_no = wps.choose(data_begining)
+    percent_treshold = int(data_begining * 0.8)
+    print('data_begining:', data_begining)
+    print('percent_treshold 80%:', percent_treshold)
+
+    x_specific = pd.DataFrame()
+    x_specific.insert(0, 'Day', range(0, 364))
+    x_specific.insert(1, 'premium', premium_no)
+    y_pred_all = lin_reg_2.predict(poly_reg.fit_transform(x_specific))
+
+    print('prediction for Sony Xperia XZ1 Compact G8441')
+    for i in range(y_pred_all.size):
+        if y_pred_all[i] <= percent_treshold:
+            print('Begining price(', data_begining, ')', ' should drop to 80% (', y_pred_all[i], ')', ' in ', i, 'day')
+            break
+    # 90 day is 80 % to: 382
+    # after 90 day from graph is 394 so is 4% fail and
 
 if __name__=='__main__':
     main()
