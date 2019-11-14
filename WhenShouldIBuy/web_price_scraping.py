@@ -3,11 +3,15 @@ import re
 import os
 import csv
 
+import sys
+sys.path.append("..")
+
 from urllib.request import urlopen
 from bs4 import BeautifulSoup
 import itertools
 
 import pandas as pd
+import utils as ut
 
 
 def fromCsvToDf(*names):
@@ -28,28 +32,6 @@ def read_links():
     with open('data/links.txt') as f:
         links = [link.strip('\n') for link in f]
     return links
-
-# choose premium number from begining price
-def choose(begining_price):
-    if (begining_price <= 300) and (begining_price) >= 200:
-        return 2
-    elif (begining_price <= 400) and (begining_price) > 300:
-        return 3
-    elif (begining_price <= 500) and (begining_price) > 400:
-        return 4
-    elif (begining_price <= 600) and (begining_price) > 500:
-        return 5
-    elif (begining_price <= 700) and (begining_price) > 600:
-        return 6
-    elif (begining_price <= 800) and (begining_price) > 700:
-        return 7
-    elif (begining_price <= 900) and (begining_price) > 800:
-        return 8
-    else:
-        print('none of them')
-
-# def parse_links(links):
-
 
 def price_scraping(links):
     for link in links:
@@ -77,7 +59,7 @@ def price_scraping(links):
 
         # create dataframe from dict
         dfObj = pd.DataFrame.from_dict(d, orient='index', columns=None)
-        dfObj['premium'] = choose(float(dfObj.iloc[3, 0]))
+        dfObj['premium'] = ut.choose(float(dfObj.iloc[3, 0]))
 
         # add column with name of mobile phone
         dfObj['Phone name'] = data_name[0]
@@ -87,7 +69,7 @@ def price_scraping(links):
         dir_name = 'data'
         filename_suffix = 'csv'
         base_filename = 'out'
-        no_file = str(int(choose(float(dfObj.iloc[3, 0]))))
+        no_file = str(int(ut.choose(float(dfObj.iloc[3, 0]))))
 
         path = os.path.join(dir_name, no_file + base_filename + "." + filename_suffix)
 
