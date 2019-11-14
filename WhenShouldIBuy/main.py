@@ -4,6 +4,8 @@ sys.path.append("..")
 import web_price_scraping as wps
 import draw_charts as dc
 import pandas as pd
+# import numpy as np
+import matplotlib.pyplot as plt
 
 from sklearn.metrics import mean_squared_error
 from sklearn.metrics import r2_score
@@ -86,6 +88,9 @@ def main():
     # 153 day is 80 % to: 421.96564126781067
     # after 153 day from graph is 483 so is 10% fail and
 
+    dc.real_prediction_plot('Samsung-Galaxy-Note-4', y_pred_all, 152, 421)
+
+
     # real prediction 2
     # 'https://pricespy.co.uk/phones-gps/mobile-phones/sony-xperia-xz1-compact-g8441--p4433342/statistics'
 
@@ -107,6 +112,8 @@ def main():
             break
     # 90 day is 80 % to: 382
     # after 90 day from graph is 394 so is 4% fail and
+
+    dc.real_prediction_plot('Sony-Xperia-xz1', y_pred_all, 90, 382)
 
 if __name__=='__main__':
     main()

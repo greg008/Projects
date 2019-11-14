@@ -20,14 +20,14 @@ Begining price: 528<br />
 percent_treshold 80%: <br />
 Begining price( 528 )  should drop to 80% ( 421.96564126781067 )  after  **153** days
 error aprox: 10 % 
- ![alt text](predict_1_Samsung_Galaxy_Note_4.png "Title Text")
- 
+ ![alt text](predict-Samsung-Galaxy-Note-4.png "Title Text")
+
 Prediction_2 for  sony xperia xz1
 Begining price: 479<br />
 percent_treshold 80%: <br />
 Begining price( 479 )  should drop to 80% ( 382 )  after  **90** days
 error aprox: 4 % 
- ![alt text](predict_2_Sony_Xperia_xz1.png "Title Text")
+ ![alt text](predict-Sony-Xperia-xz1.png "Title Text")
 
 **TO DO:**  
 - convert prices to PLN

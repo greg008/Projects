@@ -1,7 +1,26 @@
 import matplotlib.pyplot as plt
+import numpy as np
 import matplotlib.patches as mpatches
 import pandas as pd
 
+
+def real_prediction_plot(plot_name, y_pred_all, line_x, line_y):
+    plt.title('Prediction ' + plot_name + ' - 80% price')
+    x = range(0, 364)
+    pred_list = []
+    for i in range(0, 364):
+        pred_price = y_pred_all[i]
+        pred_list.append(pred_price)
+    pred_list = np.asarray(pred_list)
+    y = pred_list
+    plt.xlabel('Day')
+    plt.ylabel('Price(GBP)')
+    plt.axvline(x=line_x, linewidth=3, color='r', label='day when price achieve 80%')
+    plt.axhline(y=line_y, linewidth=3, color='g', label='80% of price')
+    plt.legend()
+    plt.plot(x, y)
+    plt.savefig('predict-' + plot_name + '.png')
+    plt.show()
 
 def draw_graphs(premium_no, dataset, lin_reg_2, poly_reg):
     dataset = pd.read_csv('data/out_concat.csv')
