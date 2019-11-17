@@ -53,7 +53,7 @@ from keras.preprocessing.image import ImageDataGenerator
 
 train_datagen = ImageDataGenerator(preprocessing_function=preprocess_input)
 train_generator = train_datagen.flow_from_directory(
-    'wroc_landmarks/',
+    'wroc_landmarks_images/',
     target_size=(224, 224),
     color_mode='rgb',
     batch_size=32,
