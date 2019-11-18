@@ -11,32 +11,32 @@ Images to train downloaded,  using  chrome plugin "FATKUN" and google graphic se
 
 
 Results:<br />
-<img src="skytower.jpg" width="324">
+<img src="test_images/skytower.jpg" width="324">
 ![alt text](results/r_skytower.JPG)
 <br />
 **Result: class 5 - sky_tower**
 <br /><br />
-<img src="Archikatedra_Jana_Chrzciciela.jpg" width="324">
-![alt text](r_archikatedra_jana_chrzcicela.JPG)
+<img src="test_images/Archikatedra_Jana_Chrzciciela.jpg" width="324">
+![alt text](results/r_archikatedra_jana_chrzcicela.JPG)
 <br />
 **Result: class 0 - Archikatedra_Jana_Chrzciciela**
 <br /><br />
-<img src="hala_stulecia.jpg" width="324">
-![alt text](r_hala_stulecia.JPG)
+<img src="test_images/hala_stulecia.jpg" width="324">
+![alt text](results/r_hala_stulecia.JPG)
 <br />
 **Result: class 2 - hala_stulecia**
 <br /><br />
-<img src="most_grunwaldzki.jpg" width="324">
-![alt text](r_most_grunwaldzki.JPG)
+<img src="test_images/most_grunwaldzki.jpg" width="324">
+![alt text](results/r_most_grunwaldzki.JPG)
 <br />
 **Result: class 3 - most_grunwaldzki**
 <br /><br />
-<img src="panorama_raclawicka.jpg" width="324">
-![alt text](r_panorama_raclawicka.JPG)
+<img src="test_images/panorama_raclawicka.jpg" width="324">
+![alt text](results/r_panorama_raclawicka.JPG)
 <br />
 **Result: class 4 - panorama_raclawicka**
 <br /><br />
-<img src="pkp.jpg" width="324">
-![alt text](r_pkp.JPG)
+<img src="test_images/pkp.jpg" width="324">
+![alt text](results/r_pkp.JPG)
 <br />
 **Result: class 1 - Wroclaw_Dworzec_centralny**
