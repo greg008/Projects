@@ -36,4 +36,3 @@ error aprox: 4 %
 - make tests  
 - error handling
 - GUI
-- pep8
