@@ -7,7 +7,7 @@ from keras.preprocessing.image import load_img
 from keras.preprocessing.image import img_to_array
 import matplotlib.pyplot as plt
 
-filename = 'skytower.jpg'
+filename = 'Archikatedra_Jana_Chrzciciela.jpg'
 orginal = load_img(filename, target_size=(224, 224))
 plt.imshow(orginal)
 plt.show()
@@ -27,7 +27,6 @@ print(label)
 #   0.019625887)]]
 
 
-
 # transfer learning
 from keras.layers import Dense, GlobalAveragePooling2D
 
@@ -37,7 +36,7 @@ x = GlobalAveragePooling2D()(x)
 x = Dense(1024, activation='relu')(x)
 x = Dense(1024, activation='relu')(x)
 x = Dense(512, activation='relu')(x)
-preds = Dense(2, activation='softmax')(x)
+preds = Dense(6, activation='softmax')(x)
 
 from keras.models import Model
 model = Model(inputs=base_model.input, outputs=preds)
@@ -81,7 +80,7 @@ model.fit_generator(
 
 print(train_generator.class_indices)
 
-filename = 'skytower.jpg'
+filename = 'Archikatedra_Jana_Chrzciciela.jpg'
 orginal = load_img(filename, target_size=(224, 224))
 plt.imshow(orginal)
 plt.show()
