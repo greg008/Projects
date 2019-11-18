@@ -14,29 +14,29 @@ Results:<br />
 <img src="skytower.jpg" width="324">
 ![alt text](r_skytower.JPG)
 <br />
-**Result:<br /> class 5 - sky_tower**
+**Result: class 5 - sky_tower**
 <br /><br />
 <img src="Archikatedra_Jana_Chrzciciela.jpg" width="324">
 ![alt text](r_archikatedra_jana_chrzcicela.JPG)
 <br />
-**Result:<br /> class 0 - Archikatedra_Jana_Chrzciciela**
+**Result: class 0 - Archikatedra_Jana_Chrzciciela**
 <br /><br />
 <img src="hala_stulecia.jpg" width="324">
 ![alt text](r_hala_stulecia.JPG)
 <br />
-**Result:<br /> class 2 - hala_stulecia**
+**Result: class 2 - hala_stulecia**
 <br /><br />
 <img src="most_grunwaldzki.jpg" width="324">
 ![alt text](r_most_grunwaldzki.JPG)
 <br />
-**Result:<br /> class 3 - most_grunwaldzki**
+**Result: class 3 - most_grunwaldzki**
 <br /><br />
 <img src="panorama_raclawicka.jpg" width="324">
 ![alt text](r_panorama_raclawicka.JPG)
 <br />
-**Result:<br /> class 4 - panorama_raclawicka**
+**Result: class 4 - panorama_raclawicka**
 <br /><br />
 <img src="pkp.jpg" width="324">
 ![alt text](r_pkp.JPG)
 <br />
-**Result:<br /> class 1 - Wroclaw_Dworzec_centralny**
+**Result: class 1 - Wroclaw_Dworzec_centralny**
