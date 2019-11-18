@@ -1,20 +1,25 @@
-# This module implements web scraping functionality
+
+"""
+        This module implements web scraping functionality
+        using https://pricespy.co.uk/phones-gps/mobile-phones
+        to create datasets from statistics specific mobile phones
+"""
+
 import re
 import os
 import csv
-
 import sys
 sys.path.append("..")
 
 from urllib.request import urlopen
 from bs4 import BeautifulSoup
 import itertools
-
 import pandas as pd
+
 import utils as ut
 
 
-def fromCsvToDf(*names):
+def csv_to_df(*names):
     df0 = pd.DataFrame()
     for name in names:
         cols = ['date', 'price', 'premium', 'name']
@@ -37,29 +42,29 @@ def price_scraping(links):
     for link in links:
         page = urlopen(link)
         soup = BeautifulSoup(page, 'html.parser')
-        soup2 = str(soup)
+        str_soup = str(soup)
 
         pattern = re.compile(
             '\"statistics\"\:\{\"pageInfo\"\:\{\"lowestPrice\"\:.*nodes\"\:\[(.*)\]\}\,\"priceForecast',
             re.MULTILINE)
-        data = re.findall(pattern, soup2)
+        data = re.findall(pattern, str_soup)
         pattern_name = re.compile('\"Product\",\"name\":\"(.*)\",\"description\":\"Price history', re.MULTILINE)
-        data_name = re.findall(pattern_name, soup2)
+        data_name = re.findall(pattern_name, str_soup)
 
         # remove chars
-        rm_characters = data[0]
+        raw_text = data[0]
         chars = ['{', '}', '"date":', '"lowestPrice":', '"']
 
         for c in chars:
-            rm_characters = rm_characters.replace(c, "")
-        split_data = rm_characters.split(',')
+            raw_text = raw_text.replace(c, "")
+        split_text = raw_text.split(',')
 
         # convert list to dictionary
-        d = dict(itertools.zip_longest(*[iter(split_data)] * 2, fillvalue=""))
+        list_to_dict = dict(itertools.zip_longest(*[iter(split_text)] * 2, fillvalue=""))
 
         # create dataframe from dict
-        dfObj = pd.DataFrame.from_dict(d, orient='index', columns=None)
-        dfObj['premium'] = ut.choose(float(dfObj.iloc[3, 0]))
+        dfObj = pd.DataFrame.from_dict(list_to_dict, orient='index', columns=None)
+        dfObj['premium'] = ut.deduce_premium_no(float(dfObj.iloc[3, 0]))
 
         # add column with name of mobile phone
         dfObj['Phone name'] = data_name[0]
@@ -69,16 +74,18 @@ def price_scraping(links):
         dir_name = 'data'
         filename_suffix = 'csv'
         base_filename = 'out'
-        no_file = str(int(ut.choose(float(dfObj.iloc[3, 0]))))
+        no_of_file = str(int(ut.deduce_premium_no(float(dfObj.iloc[3, 0]))))
 
-        path = os.path.join(dir_name, no_file + base_filename + "." + filename_suffix)
+        path = os.path.join(dir_name, no_of_file + base_filename + "." + filename_suffix)
 
         # write dataframe to csv file
         pd.DataFrame(dfObj).to_csv(path, header=False, quoting=csv.QUOTE_NONE)
 
 # create final csv datafile
-def concat_data():
-    df_concat = fromCsvToDf('data/2out.csv', 'data/3out.csv', 'data/4out.csv', 'data/5out.csv', 'data/6out.csv', 'data/7out.csv', 'data/8out.csv')
+def create_final_dataset():
+    # concat datasets from various premium number datasets
+    df_concat = csv_to_df('data/2out.csv', 'data/3out.csv', 'data/4out.csv', 'data/5out.csv', 'data/6out.csv',
+                          'data/7out.csv', 'data/8out.csv')
 
     # save concat df to csv
     pd.DataFrame(df_concat).to_csv('data/out_concat.csv', header=False, quoting=csv.QUOTE_NONE)

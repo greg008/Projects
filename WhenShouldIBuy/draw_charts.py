@@ -1,6 +1,11 @@
+
+"""
+        This module implements wisualisation for datasets and predictins
+"""
+
 import matplotlib.pyplot as plt
-import numpy as np
 import matplotlib.patches as mpatches
+import numpy as np
 import pandas as pd
 
 
@@ -22,16 +27,17 @@ def real_prediction_plot(plot_name, y_pred_all, line_x, line_y):
     plt.savefig('predict-' + plot_name + '.png')
     plt.show()
 
+
 def draw_graphs(premium_no, dataset, lin_reg_2, poly_reg):
-    dataset = pd.read_csv('data/out_concat.csv')
     x_specific = pd.DataFrame()
     x_specific.insert(0, 'Day', range(0, 364))
     x_specific.insert(1, 'premium', premium_no)
-    mainDf = dataset[dataset.iloc[:, 4] == premium_no]
-    y_raw = mainDf.iloc[0:364, 3]
+    main_df = dataset[dataset.iloc[:, 4] == premium_no]
+    y_raw = main_df.iloc[0:364, 3]
     y = lin_reg_2.predict(poly_reg.fit_transform(x_specific))
     plt.plot(range(0, 364), y_raw, color='blue')
     plt.plot(range(0, 364), y, color='red')
+
 
 def grid_of_subplots(dataset, lin_reg_2, poly_reg):
     fig = plt.figure(figsize=(10, 10))
