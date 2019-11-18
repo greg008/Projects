@@ -12,7 +12,7 @@ Images to train downloaded,  using  chrome plugin "FATKUN" and google graphic se
 
 Results:<br />
 <img src="skytower.jpg" width="324">
-![alt text](r_skytower.JPG)
+![alt text](results/r_skytower.JPG)
 <br />
 **Result: class 5 - sky_tower**
 <br /><br />
