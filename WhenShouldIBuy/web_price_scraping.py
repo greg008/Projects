@@ -19,11 +19,11 @@ import pandas as pd
 import utils as ut
 
 
-def csv_to_df(*names):
+def csv_to_df(*args):
     df0 = pd.DataFrame()
-    for name in names:
+    for arg in args:
         cols = ['date', 'price', 'premium', 'name']
-        df = pd.read_csv(name, sep=',', names=cols, header=None)
+        df = pd.read_csv(arg, sep=',', names=cols, header=None)
         df = df.drop(df.index[400:])
         # convert data to integer(number of days from begining)
         df.insert(0, 'Day', range(0, len(df)))
