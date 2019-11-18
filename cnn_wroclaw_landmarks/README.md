@@ -1,6 +1,6 @@
  # cnn wroclaw landmarks
 
-Applications to recognize Wrocław the most popular Landmarks using convolutional neural network<br />
+Applications to recognize the most popular Landmarks in Wrocław using convolutional neural network<br />
 <br />
 Images to train downloaded,  using  chrome plugin "FATKUN" and google graphic search
 (381 images belonging to 6 classes)
