@@ -22,12 +22,9 @@ processed_image = preprocess_input(image_batch.copy())
 predictions = mobilenet.predict(processed_image)
 label = decode_predictions(predictions)
 print(label)
-# [[('n04258138', 'solar_dish', 0.7564896), ('n03933933', 'pier', 0.06127574),
-#   ('n02692877', 'airship', 0.03080048), ('n02814860', 'beacon', 0.022184478), ('n02894605', 'breakwater',
-#   0.019625887)]]
-
 
 # transfer learning
+
 from keras.layers import Dense, GlobalAveragePooling2D
 
 base_model = MobileNet(weights='imagenet', include_top=False)
@@ -42,7 +39,8 @@ from keras.models import Model
 model = Model(inputs=base_model.input, outputs=preds)
 model.summary()
 
-# dotrenowanie moich 5 dodanych warstw
+# train additional 5 layers
+
 for layer in model.layers[:-5]:
     layer.trainable = False
 
