@@ -11,7 +11,7 @@ import csv
 import sys
 sys.path.append("..")
 
-from urllib.request import urlopen
+from urllib.request import Request, urlopen
 from bs4 import BeautifulSoup
 import itertools
 import pandas as pd
@@ -38,9 +38,17 @@ def read_links():
         links = [link.strip('\n') for link in f]
     return links
 
+# req = Request('http://www.cmegroup.com/trading/products/#sortField=oi&sortAsc=false&venues=3&page=1&cleared=1&group=1', headers={'User-Agent': 'Mozilla/5.0'})
+# webpage = urlopen(req).read()
+
 def price_scraping(links):
     for link in links:
-        page = urlopen(link)
+
+        # adding because mod_security
+        #https://stackoverflow.com/questions/16627227/http-error-403-in-python-3-web-scraping
+        req = Request(link, headers={'User-Agent': 'Mozilla/5.0'})
+
+        page = urlopen(req)
         soup = BeautifulSoup(page, 'html.parser')
         str_soup = str(soup)
 
