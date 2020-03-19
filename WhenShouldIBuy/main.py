@@ -21,9 +21,10 @@ import pandas as pd
 
 def main():
     # Scraping data from website and create dataset
-    links = wps.read_links()
-    wps.price_scraping(links)
-    wps.create_final_dataset()
+    Scrap_data_obj = wps.ScrapData()
+    links = Scrap_data_obj.read_links()
+    Scrap_data_obj.price_scraping(links)
+    Scrap_data_obj.create_final_dataset()
 
     # Importing the dataset
     dataset = pd.read_csv('data/out_concat.csv')
