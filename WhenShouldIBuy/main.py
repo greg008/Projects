@@ -12,6 +12,8 @@ sys.path.append("..")
 
 from sklearn.metrics import mean_squared_error
 from sklearn.metrics import r2_score
+from sklearn.linear_model import LinearRegression
+from sklearn.preprocessing import PolynomialFeatures
 
 import web_price_scraping as wps
 import draw_charts as dc
@@ -35,19 +37,19 @@ def main():
     from sklearn.model_selection import train_test_split
     X_train, X_test, y_train, y_test = train_test_split(x_data, y_data, test_size=0.2, random_state=0)
 
-    #Feature Scaling
-    # from sklearn.preprocessing import StandardScaler
-    # sc_X = StandardScaler()
-    # X_train = sc_X.fit_transform(X_train)
-    # X_test = sc_X.transform(X_test)
+    """
+    # Feature Scaling
+    from sklearn.preprocessing import StandardScaler
+    sc_X = StandardScaler()
+    X_train = sc_X.fit_transform(X_train)
+    X_test = sc_X.transform(X_test)
+    """
 
     # fit linear regression model
-    from sklearn.linear_model import LinearRegression
     lin_regr = LinearRegression()
     lin_regr.fit(x_data, y_data)
 
     # fit Polynomial Regression model
-    from sklearn.preprocessing import PolynomialFeatures
     poly_reg = PolynomialFeatures(degree=2)
     x_poly = poly_reg.fit_transform(x_data)
     poly_reg.fit(x_poly, y_data)
@@ -97,4 +99,5 @@ def main():
     # after 90 day from graph is 394 so is 4% fail and
 
 if __name__=='__main__':
+    print(__doc__)
     main()
