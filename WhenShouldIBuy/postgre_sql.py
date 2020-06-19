@@ -147,7 +147,7 @@ def postgre_sql_populating_table():
     # cur.execute("""
     # COPY cellphone_database FROM '/data/test_sql.csv' DELIMITER ',' CSV;
     # """)
-    f = open(r'C:\Users\Greg\PycharmProjects\Projects\WhenShouldIBuy\data\test_sql.csv', 'r')
+    f = open(r'C:\Users\Greg\PycharmProjects\Projects\WhenShouldIBuy\data\out_concat.csv', 'r')
     cur.copy_from(f, 'cellphone_database', sep=',')
     f.close()
 
@@ -170,7 +170,7 @@ def postgre_sql_copy_table_to_csv_file():
     # COPY cellphone_database TO STDOUT DELIMITER ',' CSV;
     # """)
 
-    f = open(r'C:\Users\Greg\PycharmProjects\Projects\WhenShouldIBuy\data\test_sql_result.csv', 'w')
+    f = open(r'C:\Users\Greg\PycharmProjects\Projects\WhenShouldIBuy\data\out_concat.csv', 'w')
     cur.copy_to(f, 'cellphone_database', sep=',')
     f.close()
     # f = open(r'C:\Users\Greg\PycharmProjects\Projects\WhenShouldIBuy\data\test_sql.csv', 'r')
@@ -188,4 +188,4 @@ def postgre_sql_copy_table_to_csv_file():
 # postgre_sql_updating_data()
 # postgre_sql_deleting_data()
 # postgre_sql_populating_table()
-postgre_sql_copy_table_to_csv_file()
+# postgre_sql_copy_table_to_csv_file()

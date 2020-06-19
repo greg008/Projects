@@ -23,7 +23,7 @@ import pandas as pd
 
 def main():
     # Scraping data from website and create dataset
-    Scrap_data_obj = wps.ScrapData()
+    Scrap_data_obj = wps.ScrapData('database')
     links = Scrap_data_obj.read_links()
     Scrap_data_obj.price_scraping(links)
     Scrap_data_obj.create_final_dataset()
