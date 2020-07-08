@@ -1,4 +1,3 @@
-
 """
         This module implements web scraping functionality
         using https://pricespy.co.uk/phones-gps/mobile-phones
@@ -14,27 +13,32 @@ sys.path.append("..")
 from urllib.request import Request, urlopen
 from bs4 import BeautifulSoup
 import itertools
-# import requests
 
 import pandas as pd
 
 import utils as ut
+import postgre_sql
 
 
 class ScrapData:
-    """The ScrapData web scraper collects data from  www.https://pricespy.co.uk/phones-gps/mobile-phones
+    """The ScrapData web scraper collects data from
+        www.https://pricespy.co.uk/phones-gps/mobile-phones
         returned Pandas dataframe with data
     """
 
-    def __init__(self, url: str = 'https://pricespy.co.uk/phones-gps/mobile-phones/'
-                                  'honor-10-4gb-ram-128gb--p4802117/statistics'):
+    def __init__(self, get_data: str = 'website',
+                 url: str = 'https://pricespy.co.uk/phones-gps/mobile-phones/'
+                                  'honor-10-4gb-ram-128gb--p4802117/statistics',
+                 ):
         """Args:
             url (str): full HTML link to a page of pricespy.co.uk.
+            website (str): create dataset from website or database
         """
 
         self.__status_code = self._request(url)
         self.__url = url
         self.__validate_url()
+        self._get_data = get_data
         print(self.__status_code)
         print(url)
 
@@ -135,8 +139,21 @@ class ScrapData:
     def create_final_dataset(self):
         """Create final csv datafile,
         concat datasets from various premium number datasets"""
-        df_concat = self.csv_to_df('data/2out.csv', 'data/3out.csv', 'data/4out.csv', 'data/5out.csv', 'data/6out.csv',
-                              'data/7out.csv', 'data/8out.csv')
 
-        # save concat df to csv
-        pd.DataFrame(df_concat).to_csv('data/out_concat.csv', header=False, quoting=csv.QUOTE_NONE)
+        if self._get_data == 'website':
+            df_concat = self.csv_to_df('data/2out.csv', 'data/3out.csv', 'data/4out.csv', 'data/5out.csv', 'data/6out.csv',
+                              'data/7out.csv', 'data/8out.csv')
+            # save concat df to csv
+            pd.DataFrame(df_concat).to_csv('data/out_concat.csv', header=False, quoting=csv.QUOTE_NONE)
+            print('!!!!csv file from website!!!!')
+
+        elif self._get_data == 'database':
+            postgre_sql.postgre_sql_copy_table_to_csv_file()
+            print('!!!!csv file from database!!!!')
+
+        else:
+            print('error during creating out_concat_file.csv')
+            return -1
+
+
+
