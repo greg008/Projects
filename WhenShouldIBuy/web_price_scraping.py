@@ -8,6 +8,7 @@ import re
 import os
 import csv
 import sys
+
 sys.path.append("..")
 
 from urllib.request import Request, urlopen
@@ -28,7 +29,7 @@ class ScrapData:
 
     def __init__(self, get_data: str = 'website',
                  url: str = 'https://pricespy.co.uk/phones-gps/mobile-phones/'
-                                  'honor-10-4gb-ram-128gb--p4802117/statistics',
+                            'honor-10-4gb-ram-128gb--p4802117/statistics',
                  ):
         """Args:
             url (str): full HTML link to a page of pricespy.co.uk.
@@ -45,8 +46,8 @@ class ScrapData:
     @staticmethod
     def _request(url: str):
         req = Request(url, headers={'User-Agent': 'Mozilla/5.0'})
-        r = urlopen(req)
-        return r.getcode()
+        open_url = urlopen(req)
+        return open_url.getcode()
 
     def __validate_url(self):
         """Basic url validation."""
@@ -57,23 +58,26 @@ class ScrapData:
         conditions = [self.url.startswith(u) for u in urls]
         conditions.append(self.__status_code == 200)
         print(conditions)
-        """False: Any() returns False if no elements are True.
-           So "not any" is the same as "no True values."
-        """
+
+        # False: Any() returns False if no elements are True.
+        # So "not any" is the same as "no True values."
         if not any(conditions):
             raise ValueError(f"Invalid pricespy.co.uk URL:\n\n\t{self.url}")
 
     @property
     def url(self):
+        """url property"""
         return self.__url
 
-    def read_links(self):
+    @staticmethod
+    def read_links():
         """Read links from file and remove newline characters."""
         with open('data/links.txt') as f:
             links = [link.strip('\n') for link in f]
         return links
 
-    def csv_to_df(self, *args):
+    @staticmethod
+    def csv_to_df(*args):
         """Convert csv file to Pandas DataFrame"""
         df0 = pd.DataFrame()
         for arg in args:
@@ -87,8 +91,11 @@ class ScrapData:
             df0 = df_concat
         return df0
 
-    def price_scraping(self, links):
-        """Extract specific statistics data from websites, parse and write to csv file"""
+    @staticmethod
+    def price_scraping(links):
+        """Extract specific statistics data from websites,
+            parse and write to csv file
+        """
         for link in links:
 
             # fixing mod_security problem
@@ -100,10 +107,12 @@ class ScrapData:
             str_soup = str(soup)
 
             pattern = re.compile(
-                '\"statistics\"\:\{\"pageInfo\"\:\{\"lowestPrice\"\:.*nodes\"\:\[(.*)\]\}\,\"priceForecast',
-                re.MULTILINE)
+                r'\"statistics\"\:\{\"pageInfo\"\:\{\"lowestPrice\"\:.*nodes'
+                r'\"\:\[(.*)\]\}\,\"priceForecast', re.MULTILINE)
             data = re.findall(pattern, str_soup)
-            pattern_name = re.compile('\"Product\",\"name\":\"(.*)\",\"description\":\"Price history', re.MULTILINE)
+            pattern_name = re.compile(r'\"Product\",\"name\":\"(.*)\",\"'
+                                      r'description\":\"Price history',
+                                      re.MULTILINE)
             data_name = re.findall(pattern_name, str_soup)
 
             # remove chars
@@ -115,45 +124,56 @@ class ScrapData:
             split_text = raw_text.split(',')
 
             # convert list to dictionary
-            list_to_dict = dict(itertools.zip_longest(*[iter(split_text)] * 2, fillvalue=""))
+            list_to_dict = dict(
+                itertools.zip_longest(*[iter(split_text)] * 2, fillvalue=""))
 
             # create dataframe from dict
-            dfObj = pd.DataFrame.from_dict(list_to_dict, orient='index', columns=None)
-            dfObj['premium'] = ut.deduce_premium_no(float(dfObj.iloc[3, 0]))
+            df_obj = pd.DataFrame.from_dict(list_to_dict, orient='index',
+                                            columns=None)
+            df_obj['premium'] = ut.deduce_premium_no(float(df_obj.iloc[3, 0]))
 
             # add column with name of mobile phone
-            dfObj['Phone name'] = data_name[0]
-            print(dfObj)
+            df_obj['Phone name'] = data_name[0]
+            print(df_obj)
 
             # create file name
             dir_name = 'data'
             filename_suffix = 'csv'
             base_filename = 'out'
-            no_of_file = str(int(ut.deduce_premium_no(float(dfObj.iloc[3, 0]))))
+            no_of_file = str(
+                int(ut.deduce_premium_no(float(df_obj.iloc[3, 0]))))
 
-            path = os.path.join(dir_name, no_of_file + base_filename + "." + filename_suffix)
+            path = os.path.join(dir_name,
+                                no_of_file
+                                + base_filename
+                                + "."
+                                + filename_suffix)
 
             # write dataframe to csv file
-            pd.DataFrame(dfObj).to_csv(path, header=False, quoting=csv.QUOTE_NONE)
+            pd.DataFrame(df_obj).to_csv(path, header=False,
+                                        quoting=csv.QUOTE_NONE)
 
     def create_final_dataset(self):
         """Create final csv datafile,
-        concat datasets from various premium number datasets"""
+            concat datasets from various premium number datasets
+        """
 
         if self._get_data == 'website':
-            df_concat = self.csv_to_df('data/2out.csv', 'data/3out.csv', 'data/4out.csv', 'data/5out.csv', 'data/6out.csv',
-                              'data/7out.csv', 'data/8out.csv')
-            # save concat df to csv
-            pd.DataFrame(df_concat).to_csv('data/out_concat.csv', header=False, quoting=csv.QUOTE_NONE)
-            print('!!!!csv file from website!!!!')
+            df_concat = self.csv_to_df('data/2out.csv', 'data/3out.csv',
+                                       'data/4out.csv', 'data/5out.csv',
+                                       'data/6out.csv', 'data/7out.csv',
+                                       'data/8out.csv')
 
-        elif self._get_data == 'database':
+            # save concat df to csv
+            pd.DataFrame(df_concat).to_csv('data/out_concat.csv', header=False,
+                                           quoting=csv.QUOTE_NONE)
+            print('!!!!csv file from website!!!!')
+            return 1
+
+        if self._get_data == 'database':
             postgre_sql.postgre_sql_copy_table_to_csv_file()
             print('!!!!csv file from database!!!!')
+            return 1
 
-        else:
-            print('error during creating out_concat_file.csv')
-            return -1
-
-
-
+        print('error during creating out_concat_file.csv')
+        return -1
