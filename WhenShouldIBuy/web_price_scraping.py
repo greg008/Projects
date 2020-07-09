@@ -1,20 +1,17 @@
 """
         This module implements web scraping functionality
         using https://pricespy.co.uk/phones-gps/mobile-phones
-        to create datasets from statistics specific mobile phones
+        to create datasets from statistics specific mobile phones or
+        external database
 """
 
 import re
 import os
 import csv
-import sys
-
-sys.path.append("..")
+import itertools
 
 from urllib.request import Request, urlopen
 from bs4 import BeautifulSoup
-import itertools
-
 import pandas as pd
 
 import utils as ut
@@ -24,6 +21,7 @@ import postgre_sql
 class ScrapData:
     """The ScrapData web scraper collects data from
         www.https://pricespy.co.uk/phones-gps/mobile-phones
+        or download from database
         returned Pandas dataframe with data
     """
 
@@ -33,21 +31,32 @@ class ScrapData:
                  ):
         """Args:
             url (str): full HTML link to a page of pricespy.co.uk.
-            website (str): create dataset from website or database
+            get_data (str): Optional. Default set to 'website'
+                            'website' create dataset from website.
+                            'database' download and create dataset from db
         """
 
         self.__status_code = self._request(url)
         self.__url = url
         self.__validate_url()
-        self._get_data = get_data
-        print(self.__status_code)
-        print(url)
+        self.__get_data = get_data
+        self.__validate_get_data()
+
+    @property
+    def get_data(self):
+        return self.__get_data
 
     @staticmethod
     def _request(url: str):
         req = Request(url, headers={'User-Agent': 'Mozilla/5.0'})
         open_url = urlopen(req)
         return open_url.getcode()
+
+    def __validate_get_data(self):
+        print(self.__get_data)
+        if self.__get_data != 'website' and self.__get_data != 'database':
+            raise ValueError('parameter must be "website" or "database"')
+        # self.__get_data = self.__get_data
 
     def __validate_url(self):
         """Basic url validation."""
@@ -57,7 +66,6 @@ class ScrapData:
         urls = [real_url.format(p, t) for p in protocols for t in words]
         conditions = [self.url.startswith(u) for u in urls]
         conditions.append(self.__status_code == 200)
-        print(conditions)
 
         # False: Any() returns False if no elements are True.
         # So "not any" is the same as "no True values."
@@ -107,9 +115,10 @@ class ScrapData:
             str_soup = str(soup)
 
             pattern = re.compile(
-                r'\"statistics\"\:\{\"pageInfo\"\:\{\"lowestPrice\"\:.*nodes'
-                r'\"\:\[(.*)\]\}\,\"priceForecast', re.MULTILINE)
+                r'\"statistics\":{\"pageInfo\":{\"lowestPrice\":.*nodes'
+                r'\":\[(.*)\]\},\"priceForecast', re.MULTILINE)
             data = re.findall(pattern, str_soup)
+
             pattern_name = re.compile(r'\"Product\",\"name\":\"(.*)\",\"'
                                       r'description\":\"Price history',
                                       re.MULTILINE)
@@ -134,7 +143,6 @@ class ScrapData:
 
             # add column with name of mobile phone
             df_obj['Phone name'] = data_name[0]
-            print(df_obj)
 
             # create file name
             dir_name = 'data'
@@ -158,7 +166,7 @@ class ScrapData:
             concat datasets from various premium number datasets
         """
 
-        if self._get_data == 'website':
+        if self.__get_data == 'website':
             df_concat = self.csv_to_df('data/2out.csv', 'data/3out.csv',
                                        'data/4out.csv', 'data/5out.csv',
                                        'data/6out.csv', 'data/7out.csv',
@@ -167,13 +175,11 @@ class ScrapData:
             # save concat df to csv
             pd.DataFrame(df_concat).to_csv('data/out_concat.csv', header=False,
                                            quoting=csv.QUOTE_NONE)
-            print('!!!!csv file from website!!!!')
-            return 1
 
-        if self._get_data == 'database':
+            return '--------------------------csv file create from {}'.format(self.__get_data)
+
+        if self.__get_data == 'database':
             postgre_sql.postgre_sql_copy_table_to_csv_file()
-            print('!!!!csv file from database!!!!')
-            return 1
+            return 'csv file create from {}'.format(self.__get_data)
 
-        print('error during creating out_concat_file.csv')
-        return -1
+        raise ValueError('wrong parameter')
