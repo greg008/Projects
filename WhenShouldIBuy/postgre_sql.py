@@ -16,7 +16,7 @@ DB_PORT = "5432"
 def postgre_sql_connection():
     """ connection to database """
     try:
-        conn = psycopg2.connect(database=DB_NAME, user=DB_USER,
+        conn = psycopg2.connect(database=DB_NAME, user=DB_USER,  # noqa: F841
                                 password=DB_PASS, host=DB_HOST, port=DB_PORT)
 
     except psycopg2.OperationalError as e:
@@ -63,9 +63,9 @@ def postgre_sql_inerting_data():
     cur = conn.cursor()
     cur.execute("""
     INSERT INTO cellphone_database
-    
+
     (ID, Num_of_days, Date, Price, Class, Name) VALUES(1, 1, '2016-06-02',
-     265.91, 2, 'Huawei P9 Lite')  
+     265.91, 2, 'Huawei P9 Lite')
     """)
 
     conn.commit()

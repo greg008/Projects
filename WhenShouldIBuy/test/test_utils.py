@@ -24,8 +24,10 @@ class TestUtils(unittest.TestCase):
         self.assertNotEqual(ut.choose(45), 5)
 
     def test_choose_premium_price_mock_else(self):
-        with mock.patch('utils.choose', return_value='Begining price is not in the correct range'):
-            self.assertEqual(ut.choose(45), 'Begining price is not in the correct range')
+        with mock.patch('utils.choose', return_value='Begining price is not'
+                                                     'in the correct range'):
+            self.assertEqual(ut.choose(45),
+                             'Begining price is not in the correct range')
 
     def test_choose_premium_price_raise_type_error(self):
         with self.assertRaises(TypeError):
