@@ -6,6 +6,7 @@ Helpers for web_price_scraping module
 def deduce_premium_no(starting_price):
     """Convert price to premium number depending on starting price"""
     premium_no = 0
+
     if 300 > starting_price >= 200:
         premium_no = 2
     elif 400 > starting_price >= 300:

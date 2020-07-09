@@ -78,7 +78,6 @@ class ScrapData:
         if not any(conditions):
             raise ValueError(f"Invalid pricespy.co.uk URL:\n\n\t{self.url}")
 
-
     @staticmethod
     def read_links():
         """Read links from file and remove newline characters."""
@@ -134,7 +133,6 @@ class ScrapData:
         # write dataframe to csv file
         pd.DataFrame(df_obj).to_csv(path, header=False,
                                     quoting=csv.QUOTE_NONE)
-
 
     def price_scraping(self, links):
         """Extract specific statistics data from websites,

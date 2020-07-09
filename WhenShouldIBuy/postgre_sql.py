@@ -12,10 +12,6 @@ DB_PASS = "L7hi0Sy1mW0EcEQNj-BKHv4de1OHXf3h"
 DB_HOST = "rogue.db.elephantsql.com"
 DB_PORT = "5432"
 
-"""
-TO DO:
-create table (id, num days from beg, date, price , class, name)
-"""
 
 def postgre_sql_connection():
     """ connection to database """
@@ -23,11 +19,11 @@ def postgre_sql_connection():
         conn = psycopg2.connect(database=DB_NAME, user=DB_USER,
                                 password=DB_PASS, host=DB_HOST, port=DB_PORT)
 
-
     except psycopg2.OperationalError as e:
         print('Database not connected \n {}'.format(e))
     else:
         print('Database connected sucessfully')
+
 
 def postgre_sql_creating_table():
     """ creating table """
@@ -53,6 +49,7 @@ def postgre_sql_creating_table():
     conn.commit()
     print('Table created sucesuffly')
 
+
 def postgre_sql_inerting_data():
     """ insertion_data """
 
@@ -61,18 +58,20 @@ def postgre_sql_inerting_data():
 
     print('Database connected sucessfully')
 
-    # (ID, Num_of_days, Date, Price, Class, Name) VALUES(0, 0, '2016-06-01', 264.91, 2, 'Huawei P9 Lite')
+    # (ID, Num_of_days, Date, Price, Class, Name) VALUES(0, 0, '2016-06-01',
+    # 264.91, 2, 'Huawei P9 Lite')
     cur = conn.cursor()
     cur.execute("""
     INSERT INTO cellphone_database
     
-    (ID, Num_of_days, Date, Price, Class, Name) VALUES(1, 1, '2016-06-02', 265.91, 2, 'Huawei P9 Lite')  
+    (ID, Num_of_days, Date, Price, Class, Name) VALUES(1, 1, '2016-06-02',
+     265.91, 2, 'Huawei P9 Lite')  
     """)
-
 
     conn.commit()
     print('Data inserted sucesuffly')
     conn.close()
+
 
 def postgre_sql_selecting_data():
     """ insertion_data """
@@ -99,6 +98,7 @@ def postgre_sql_selecting_data():
 
     print('Data selected sucesuffly')
     conn.close()
+
 
 def postgre_sql_updating_data():
     """ insertion_data """
@@ -148,19 +148,21 @@ def postgre_sql_populating_table():
 
     print('Database connected sucessfully')
 
-
-    # (ID, Num_of_days, Date, Price, Class, Name) VALUES(0, 0, '2016-06-01', 264.91, 2, 'Huawei P9 Lite')
+    # (ID, Num_of_days, Date, Price, Class, Name) VALUES(0, 0, '2016-06-01',
+    # 264.91, 2, 'Huawei P9 Lite')
     cur = conn.cursor()
     # cur.execute("""
     # COPY cellphone_database FROM '/data/test_sql.csv' DELIMITER ',' CSV;
     # """)
-    f = open(r'C:\Users\Greg\PycharmProjects\Projects\WhenShouldIBuy\data\out_concat.csv', 'r')
-    cur.copy_from(f, 'cellphone_database', sep=',')
-    f.close()
+    file = open(r'C:\Users\Greg\PycharmProjects\Projects\WhenShouldIBuy'
+                r'\data\out_concat.csv', 'r')
+    cur.copy_from(file, 'cellphone_database', sep=',')
+    file.close()
 
     conn.commit()
     print('Data inserted sucesuffly')
     conn.close()
+
 
 def postgre_sql_copy_table_to_csv_file():
     """ populating_table """
@@ -170,19 +172,21 @@ def postgre_sql_copy_table_to_csv_file():
 
     print('Database connected sucessfully')
 
-
-    # (ID, Num_of_days, Date, Price, Class, Name) VALUES(0, 0, '2016-06-01', 264.91, 2, 'Huawei P9 Lite')
+    # (ID, Num_of_days, Date, Price, Class, Name)
+    # VALUES(0, 0, '2016-06-01', 264.91, 2, 'Huawei P9 Lite')
     cur = conn.cursor()
     # cur.execute("""
     # COPY cellphone_database TO STDOUT DELIMITER ',' CSV;
     # """)
 
-    f = open(r'C:\Users\Greg\PycharmProjects\Projects\WhenShouldIBuy\data\out_concat.csv', 'w')
-    cur.copy_to(f, 'cellphone_database', sep=',')
-    f.close()
-    # f = open(r'C:\Users\Greg\PycharmProjects\Projects\WhenShouldIBuy\data\test_sql.csv', 'r')
-    # cur.copy_from(f, 'cellphone_database', sep=',')
-    # f.close()
+    file = open(r'C:\Users\Greg\PycharmProjects\Projects'
+                r'\WhenShouldIBuy\data\out_concat.csv', 'w')
+    cur.copy_to(file, 'cellphone_database', sep=',')
+    file.close()
+    # file = open(r'C:\Users\Greg\PycharmProjects\Projects\WhenShouldIBuy'
+    # r'\data\test_sql.csv', 'r')
+    # cur.copy_from(file, 'cellphone_database', sep=',')
+    # file.close()
 
     conn.commit()
     print('Data inserted sucesuffly')
