@@ -1,4 +1,10 @@
+"""
+Postgre sql functionality for retrieving data from external database,
+when ScrapData object is set for 'database'
+example: Scrap_data_obj = wps.ScrapData('database')
+"""
 import psycopg2
+
 
 DB_NAME = "ulmhklzy"
 DB_USER = "ulmhklzy"
@@ -14,13 +20,14 @@ create table (id, num days from beg, date, price , class, name)
 def postgre_sql_connection():
     """ connection to database """
     try:
-        conn = psycopg2.connect(database=DB_NAME, user=DB_USER, password=DB_PASS,
-                                host=DB_HOST, port=DB_PORT)
+        conn = psycopg2.connect(database=DB_NAME, user=DB_USER,
+                                password=DB_PASS, host=DB_HOST, port=DB_PORT)
 
+
+    except psycopg2.OperationalError as e:
+        print('Database not connected \n {}'.format(e))
+    else:
         print('Database connected sucessfully')
-
-    except:
-        print('Database not connected ')
 
 def postgre_sql_creating_table():
     """ creating table """
