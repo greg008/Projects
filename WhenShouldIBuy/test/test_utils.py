@@ -1,10 +1,8 @@
+import unittest
+import mock
+import utils as ut
 import sys
 sys.path.append("..")
-import unittest
-
-import mock
-
-import utils as ut
 
 
 class TestUtils(unittest.TestCase):
