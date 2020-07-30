@@ -1,7 +1,11 @@
 language: python
+serices:
+  - docker
 python:
   - "3.6"
 install:
   - make deps
 script:
   - make lint
+after success:
+  - make docker_build
