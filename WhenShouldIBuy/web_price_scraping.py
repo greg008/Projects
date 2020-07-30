@@ -5,10 +5,10 @@
         external database
 """
 
-# import re
-# import os
-# import csv
-# import itertools
+import re
+import os
+import csv
+import itertools
 
 from urllib.request import Request, urlopen
 from bs4 import BeautifulSoup
