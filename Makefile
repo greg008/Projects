@@ -17,4 +17,13 @@ docker_build:
 docker_run: docker_build
 			docker run \
 				--name my_projects_container \
-				-dit my_projects
+				-d my_projects
+
+USERNAME=greg008
+TAG=$(USERNAME)/my_projects
+
+docker_push: docker_build
+				@docker login --username $(USERNAME) --password $${DOCKER_PASSWORD}; \
+				docker tag my_projects $(TAG); \
+				docker push $(TAG); \
+				docker logout;
