@@ -1,3 +1,5 @@
+SERVICE_NAME=my_projects_container
+MY_DOCKER_NAME=$(SERVICE_NAME)
 .PHONY: test
 
 
@@ -12,18 +14,18 @@ run:
 	PYTHONPATH=./WhenShouldIBuy python ./WhenShouldIBuy/main.py
 
 docker_build:
-	docker build -t my_projects .
+	docker build -t $(MY_DOCKER_NAME) .
 
 docker_run: docker_build
 			docker run \
-				--name my_projects_container \
-				-d my_projects
+				--name $(SERVICE_NAME) \
+				-d $(MY_DOCKER_NAME)
 
 USERNAME=greg008
-TAG=$(USERNAME)/my_projects
+TAG=$(USERNAME)/$(MY_DOCKER_NAME)
 
 docker_push: docker_build
 				@docker login --username $(USERNAME) --password $${DOCKER_PASSWORD}; \
-				docker tag my_projects $(TAG); \
+				docker tag $(MY_DOCKER_NAME) $(TAG); \
 				docker push $(TAG); \
 				docker logout;

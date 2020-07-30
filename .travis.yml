@@ -1,11 +1,13 @@
 language: python
 serices:
-  - docker
+- docker
 python:
-  - "3.6"
+- '3.6'
 install:
-  - make deps
+- make deps
 script:
-  - make lint
-  - make docker_build
-  - make docker_push
+- make lint
+- make docker_build
+- make docker_push
+env:
+  secure: gDkf1/wwUfcOBbA/x0qqkpgZNli99CcmE/pHJ81/O6LOLxyQn0zaMbwWtW6D2Ue4HUY6sQTPr5/2Ud2jj2tmGyi1+5RLf80Y5OJHvUxhAyR3UnnoEDcPTQj9oRnslXK5jAHW16cgRq1pOm3S0uU0aSjKM9B4t99UtubpRlXUeJxtggvn4gVnVgbe6UF7ORIknDPjug151DcEL3qZXL6WxkVxiTyuz9GaRdYAMRrVuPOLPDJMBhWZmeSbqWc6HzLachDoh8xq0e8RvCHKmick4AqyWeUZ6tIs1pFYF8NfKAYeX+pYrEU8b2Iwzh35blvbVN1ETEYAKCly/dCkpWzK+17WU3/pUhTFmi+AYcMj55+aOnjyyXeI+d0t5U2ZfPgm1MaxrvA6RuaCBvN5p79XlDs7Q6ZzhMAZTv1UHYAoJ1zD2LD03cksR0OfbS4rV0dv+VxIWMPcme04NfFSMmvtx6Lpc8QpEptszFw9KTYS7XM6BOx2ZDUWfYNdpiB73FV00ME7QL3Anut9ZOdgBXSy+6cRtZ43H85NiCkXl99s23MLbGVmmtywjHlzRstcJ9sL8qPpVe1+m1R44Fxb1UYkQsrBP6BwtCd/B1IHs8HimSTXha//VZt/D7vkB/YPWgG+QdSb+DrtMnPzoM33TsBx/MhVJC+3h4ET8jDh+d72FJE=
